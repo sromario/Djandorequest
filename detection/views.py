@@ -20,10 +20,10 @@ def detect_objects_view(request):
                 destination.write(chunk)
         
         # inferência yolo
-        detected, results_img = predict_image(model, temp_path, conf=0.7, iou=0.5)
+        isPromoBottle, results_img = predict_image(model, temp_path, conf=0.7, iou=0.5)
         
         # Desenhar caixas caso tenha deteção e remover foto original, salvando apenas nova com deteção
-        if detected:
+        if isPromoBottle:
             output_path = 'detected_temp.jpg'
             draw_boxes(temp_path, results_img, model, output_path)
             os.remove(temp_path)
@@ -31,7 +31,7 @@ def detect_objects_view(request):
             
         
        
-        return JsonResponse({'detected': detected})
+        return JsonResponse({'detected': isPromoBottle})
 
     
     return JsonResponse({'error': 'Envie uma imagem válida'}, status=400)

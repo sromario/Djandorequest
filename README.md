@@ -9,7 +9,7 @@ contém uma aplicação Django que processa solicitações POST e retorna um val
 
 
 ```
-git clone https://github.com/sromario/DjangoRequest.git
+git clone https://github.com/sromario/Djangorequest.git
 
 Após isso execute o projeto
 ```

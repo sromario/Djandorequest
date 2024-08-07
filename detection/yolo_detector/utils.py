@@ -4,10 +4,6 @@ from ultralytics import YOLO
 def preprocess_image(image, target_size=(640, 640)):
     """
     Pré-processa a imagem para o modelo YOLO.
-    
-    Args:
-    - image (numpy.ndarray): Imagem carregada pelo OpenCV.
-    - target_size (tuple): Dimensões para redimensionamento da imagem.
 
     Returns:
     - numpy.ndarray: Imagem pré-processada.
@@ -26,18 +22,9 @@ def preprocess_image(image, target_size=(640, 640)):
     
     return image_preprocessed
 
-
-
 def predict_image(model, image, conf=0.7, iou=0.5, imgsz=640):
     """
     Realiza a inferência usando o modelo YOLO.
-
-    Args:
-    - model (YOLO): Modelo YOLO carregado.
-    - image (numpy.ndarray): Imagem pré-processada.
-    - conf (float): Limite de confiança para a detecção.
-    - iou (float): Limite de sobreposição para a detecção.
-    - imgsz (int): Tamanho da imagem de entrada.
 
     Returns:
     - bool: Verdadeiro se alguma detecção com confiança > conf for encontrada.
@@ -52,8 +39,6 @@ def predict_image(model, image, conf=0.7, iou=0.5, imgsz=640):
         stream=False
     )
     
-    
-
     # Verificar se houve detecção
     detections = results_img[0].boxes if results_img else None
     if detections:
@@ -62,3 +47,21 @@ def predict_image(model, image, conf=0.7, iou=0.5, imgsz=640):
                 return True, results_img
     
     return False, results_img
+
+def rotacionar_imagem(caminho_imagem):
+    """
+    Rotaciona a imagem em 90 graus no sentido anti-horário e salva a imagem rotacionada.
+
+    """
+    # Carrega a imagem
+    imagem = cv2.imread(caminho_imagem)
+
+    # Verifica se a imagem foi carregada corretamente
+    if imagem is None:
+        raise ValueError("Erro ao carregar a imagem para rotação")
+
+    # Rotaciona a imagem 90 graus no sentido anti-horário
+    imagem_rotacionada = cv2.rotate(imagem, cv2.ROTATE_90_COUNTERCLOCKWISE)
+
+    # Salva a imagem rotacionada
+    cv2.imwrite(caminho_imagem, imagem_rotacionada)
